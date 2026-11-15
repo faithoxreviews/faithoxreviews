@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "2fab3cb6a774769f418c08f1e7c9de16"
-name = "Faithox"
+name = "Faithox Reviews"
 application_url = "https://www.faithoxreviews.com/api/auth"
 embedded = false
 

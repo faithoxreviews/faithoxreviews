@@ -3,7 +3,7 @@
 client_id = "ab786c724399bf755acf22d2fcaac06d"
 application_url = "https://shopify.dev/apps/default-app-home"
 embedded = true
-name = "Faithox"
+name = "Faithox Reviews"
 
 [webhooks]
 api_version = "2026-10"
