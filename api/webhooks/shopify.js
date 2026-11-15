@@ -174,7 +174,7 @@ export default async function handler(req, res) {
                             try {
                                 // 8. Send the Email with the Token Link
                                 await resend.emails.send({
-                                    from: 'Faithox Reviews <reviews@faithox.com>', 
+                                    from: 'Faithox Reviews <reviews@faithoxreviews.com>', 
                                     to: customerEmail,
                                     subject: `How are you liking your new ${product.name}?`,
                                     html: `
