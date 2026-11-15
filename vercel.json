@@ -28,7 +28,7 @@
     { "src": "/api/check-token", "dest": "api/check-token.js" },
     { "src": "/api/moderation", "dest": "api/moderation.js" },
     { "src": "/api/migrate-tokens", "dest": "api/migrate-tokens.js" },
-    { "src": "^/company(\\.html)?$", "dest": "/productreviews.html" }
+    { "src": "/company", "status": 308, "headers": { "Location": "/productreviews" } }
   ],
   "headers": [
     {
