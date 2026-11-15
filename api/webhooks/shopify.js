@@ -183,7 +183,7 @@ export default async function handler(req, res) {
                                             <p>As a verified buyer of the <strong>${product.name}</strong>, your opinion matters.</p>
                                             <br>
                                             <!-- SECURE LINK: Only uses the unique token -->
-                                            <a href="https://www.faithox.com/postareviewguest.html?token=${reviewToken}" style="padding: 12px 24px; background: #242424; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">Write a Review</a>
+                                            <a href="https://www.faithoxreviews.com/postareviewguest.html?token=${reviewToken}" style="padding: 12px 24px; background: #242424; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">Write a Review</a>
                                         </div>
                                     `
                                 });

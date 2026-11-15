@@ -114,8 +114,8 @@ export default async function handler(req, res) {
     // 4.5. AUTOMATICALLY REGISTER WEBHOOKS WITH SHOPIFY
     // =============================================================
     const webhooksToRegister = [
-      { topic: "app/uninstalled", address: "https://www.faithox.com/api/webhooks/shopify"},
-      { topic: "orders/paid", address: "https://www.faithox.com/api/webhooks/shopify" }
+      { topic: "app/uninstalled", address: "https://www.faithoxreviews.com/api/webhooks/shopify"},
+      { topic: "orders/paid", address: "https://www.faithoxreviews.com/api/webhooks/shopify" }
     ];
 
     for (const hook of webhooksToRegister) {
@@ -159,7 +159,7 @@ export default async function handler(req, res) {
       expires_at: sessionExpiresAt // Updated to use the safe variable name
     });
     
-    return res.redirect(`https://www.faithox.com/dashboard.html?token=${sessionToken}`);
+    return res.redirect(`https://www.faithoxreviews.com/dashboard.html?token=${sessionToken}`);
 
   // FIX: Restored the missing catch block to handle API errors properly
   } catch (err) {
