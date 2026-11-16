@@ -172,20 +172,41 @@ export default async function handler(req, res) {
                             console.log(`✅ Secure token created for ${customerEmail}`);
                             
                             try {
-                                // 8. Send the Email with the Token Link
+                                const customerName = payload.customer?.first_name || payload.billing_address?.first_name || 'there';
+                                const reviewUrl = `https://www.faithoxreviews.com/postareviewguest.html?token=${reviewToken}`;
+
+                                // 8. Send Transactional Review Email via Resend
                                 await resend.emails.send({
-                                    from: 'Faithox Reviews <no-reply@faithoxreviews.com>', 
+                                    from: 'Faithox Reviews <no-reply@faithoxreviews.com>',
+                                    reply_to: 'dev@faithoxreviews.com',
                                     to: customerEmail,
-                                    subject: `How are you liking your new ${product.name}?`,
+                                    subject: `How was your ${product.name}?`,
+                                    text: `Hi ${customerName},\n\nThank you for your recent purchase of ${product.name}!\n\nAs a verified customer, we would love to hear your feedback. You can share your honest review by clicking the link below:\n\n${reviewUrl}\n\nYour review helps other shoppers make informed decisions.\n\nBest regards,\nFaithox Reviews\n\n---\nYou received this transactional email because of your recent purchase on ${shopDomain || 'our store'}.`,
                                     html: `
-                                        <div style="font-family: sans-serif; text-align: center; padding: 20px;">
-                                            <h2>We hope you love your new gear!</h2>
-                                            <p>As a verified buyer of the <strong>${product.name}</strong>, your opinion matters.</p>
-                                            <br>
-                                            <!-- SECURE LINK: Only uses the unique token -->
-                                            <a href="https://www.faithoxreviews.com/postareviewguest.html?token=${reviewToken}" style="padding: 12px 24px; background: #242424; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">Write a Review</a>
+                                        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.6; color: #1e293b; max-width: 560px; margin: 0 auto; padding: 24px;">
+                                            <p style="margin-top: 0;">Hi ${customerName},</p>
+                                            <p>Thank you for your recent purchase of <strong>${product.name}</strong>!</p>
+                                            <p>As a verified customer, we would love to hear your feedback. Your review helps other shoppers make informed decisions.</p>
+                                            <p style="margin: 28px 0;">
+                                                <!-- SECURE LINK: Only uses the unique token -->
+                                                <a href="${reviewUrl}" style="display: inline-block; padding: 12px 28px; background-color: #0f172a; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px;">
+                                                    Write a Review
+                                                </a>
+                                            </p>
+                                            <p style="font-size: 13px; color: #64748b; margin-top: 24px;">
+                                                Or open this link directly in your browser:<br>
+                                                <a href="${reviewUrl}" style="color: #2563eb; word-break: break-all;">${reviewUrl}</a>
+                                            </p>
+                                            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 28px 0;">
+                                            <p style="font-size: 12px; color: #94a3b8; margin: 0;">
+                                                Sent via <strong>Faithox Reviews</strong> on behalf of <strong>${shopDomain || 'our store'}</strong>.<br>
+                                                You received this transactional email regarding your recent verified order.
+                                            </p>
                                         </div>
-                                    `
+                                    `,
+                                    headers: {
+                                        'X-Entity-Ref-ID': reviewToken,
+                                    }
                                 });
                                 console.log(`✉️ Automated review request sent to ${customerEmail}`);
                             } catch (emailError) {

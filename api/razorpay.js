@@ -138,23 +138,39 @@ export default async function handler(req, res) {
 
     // --- SEND EMAIL VIA RESEND ---
     try {
+      const reviewUrl = `https://www.faithoxreviews.com/postareviewguest.html?token=${reviewToken}`;
+
       const { data: emailData, error: emailError } = await resend.emails.send({
-        from: 'Faithox Reviews <no-reply@faithoxreviews.com>', 
+        from: 'Faithox Reviews <no-reply@faithoxreviews.com>',
+        reply_to: 'dev@faithoxreviews.com',
         to: customerEmail, 
-        subject: `Thanks for your purchase! Leave a review for us.`,
+        subject: `Thanks for your order! How was your experience?`,
+        text: `Hi there,\n\nThank you for your recent purchase!\n\nWe hope you had a great experience. As a verified buyer, we would greatly appreciate your feedback. You can share your review using the link below:\n\n${reviewUrl}\n\nYour review token: ${reviewToken}\n\nThank you,\nFaithox Reviews\n\n---\nYou received this transactional email regarding your recent payment.`,
         html: `
-          <div style="font-family: sans-serif; padding: 20px; color: #333;">
-            <h2>Thank you for your payment!</h2>
-            <p>We hope you love your experience. We would highly appreciate it if you could take a brief moment to leave us a review.</p>
-            <p>Your unique security review token is: <strong>${reviewToken}</strong></p>
-            <p>Click the button below to automatically unlock your review form:</p>
-            <br />
-            <a href="https://www.faithoxreviews.com/postareviewguest.html?token=${reviewToken}" 
-               style="padding: 12px 24px; background-color: #111111; color: white; text-decoration: none; border-radius: 6px; display: inline-block; font-weight: bold;">
-              Leave a Review
-            </a>
+          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.6; color: #1e293b; max-width: 560px; margin: 0 auto; padding: 24px;">
+            <p style="margin-top: 0;">Hi there,</p>
+            <p>Thank you for your payment!</p>
+            <p>We hope you loved your experience. We would highly appreciate it if you could take a brief moment to leave us a verified review.</p>
+            <p style="margin: 28px 0;">
+              <a href="${reviewUrl}" 
+                 style="display: inline-block; padding: 12px 28px; background-color: #0f172a; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px;">
+                Leave a Review
+              </a>
+            </p>
+            <p style="font-size: 13px; color: #64748b; margin-top: 24px;">
+              Or open this link directly in your browser:<br>
+              <a href="${reviewUrl}" style="color: #2563eb; word-break: break-all;">${reviewUrl}</a>
+            </p>
+            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 28px 0;">
+            <p style="font-size: 12px; color: #94a3b8; margin: 0;">
+              Security Verification Token: <code>${reviewToken}</code><br>
+              Sent via <strong>Faithox Reviews</strong>. You received this transactional notification regarding your verified payment.
+            </p>
           </div>
         `,
+        headers: {
+          'X-Entity-Ref-ID': reviewToken,
+        }
       });
 
       if (emailError) {
